@@ -3,6 +3,7 @@
 Command line console / interpreter for Airbnb clone project
 """
 import cmd
+import sys
 
 class HBNBCommand(cmd.Cmd):
     """Command intepreter"""
@@ -11,7 +12,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_quit(self, arg):
         """Exit console"""
-        exit()
+        sys.exit()
 
     def help_quit(self):
         """ Prints the help documentation for quit  """
