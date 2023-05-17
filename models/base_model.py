@@ -26,7 +26,6 @@ class BaseModel:
             del kwargs['__class__']
             self.__dict__.update(kwargs)
 
-
     def __str__(self):
         """String representation of the class"""
         return "[{}] ({}) {}".format(self.__class__.__name__,
@@ -36,7 +35,6 @@ class BaseModel:
         """Update date and time"""
         self.updated_at = datetime.now()
         storage.save()
-
 
     def to_dict(self):
         """
