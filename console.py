@@ -39,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, args):
         cmds = args.split(" ")
-        if not cmds[1]:
+        if len(cmds) < 2:
             print("** instance id missing **")
             return
         key = self.handle_cmds(args)
@@ -51,7 +51,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, args):
         cmds = args.split(" ")
-        if not cmds[1]:
+        if len(cmds) < 2:
             print("** instance id missing **")
             return
         key = self.handle_cmds(args)
