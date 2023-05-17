@@ -38,6 +38,10 @@ class HBNBCommand(cmd.Cmd):
             print(new_instance.id)
 
     def do_show(self, args):
+        cmds = args.split(" ")
+        if not cmds[1]:
+            print("** instance id missing **")
+            return
         key = self.handle_cmds(args)
         all_objects = storage.all()
         try:
@@ -46,6 +50,10 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
     def do_destroy(self, args):
+        cmds = args.split(" ")
+        if not cmds[1]:
+            print("** instance id missing **")
+            return
         key = self.handle_cmds(args)
         all_objects = storage.all()
         try:
@@ -61,9 +69,6 @@ class HBNBCommand(cmd.Cmd):
                 return
             elif cmd_list[0] not in HBNBCommand.classes:
                 print("** class doesn't exist **")
-                return
-            if not cmd_list[1]:
-                print("** instance id missing **")
                 return
             key = cmd_list[0] + "." + cmd_list[1]
             return key
