@@ -52,7 +52,9 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, args):
         cmds = args.split(" ")
         if len(cmds) < 2:
-            print("** instance id missing **")
+            ret_val = self.handle_cmds(args)
+            if ret_val:
+                print("** instance id missing **")
             return
         key = self.handle_cmds(args)
         all_objects = storage.all()
@@ -79,7 +81,8 @@ class HBNBCommand(cmd.Cmd):
             elif args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            return True
+            else:
+                return True
 
     def do_all(self, args):
         all_objects = storage.all()
