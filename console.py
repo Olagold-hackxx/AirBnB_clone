@@ -40,14 +40,17 @@ class HBNBCommand(cmd.Cmd):
     def do_show(self, args):
         cmds = args.split(" ")
         if len(cmds) < 2:
-            print("** instance id missing **")
+            ret_val = self.handle_cmds(args)
+            if ret_val:
+                print("** instance id missing **")
             return
         key = self.handle_cmds(args)
-        all_objects = storage.all()
-        try:
-            print(all_objects[key])
-        except KeyError:
-            print("** no instance found **")
+        if key is not None:
+            all_objects = storage.all()
+            try:
+                print(all_objects[key])
+            except KeyError:
+                print("** no instance found **")
 
     def do_destroy(self, args):
         cmds = args.split(" ")
@@ -57,11 +60,12 @@ class HBNBCommand(cmd.Cmd):
                 print("** instance id missing **")
             return
         key = self.handle_cmds(args)
-        all_objects = storage.all()
-        try:
-            del all_objects[key]
-        except KeyError:
-            print("** no instance found **")
+        if key is not None:
+            all_objects = storage.all()
+            try:
+                del all_objects[key]
+            except KeyError:
+                print("** no instance found **")
 
     def handle_cmds(self, args):
         if len(args.split(" ")) >= 2:
@@ -102,21 +106,22 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, args):
         cmds = args.split(" ")
         key = self.handle_cmds(args)
-        all_objects = storage.all()
-        if key in all_objects.keys():
-            if len(cmds) == 2:
-                print("** attribute name missing **")
-            elif len(cmds) == 3:
-                print("** value missing **")
+        if key is not None:
+            all_objects = storage.all()
+            if key in all_objects.keys():
+                if len(cmds) == 2:
+                    print("** attribute name missing **")
+                elif len(cmds) == 3:
+                    print("** value missing **")
+                else:
+                    if cmds[2] in self.attribute_types.keys():
+                        cmds[3] = self.attribute_types[cmds[2]](cmds[3])
+                    if cmds[3][0] == '"' and cmds[3][-1] == '"':
+                        cmds[3] = cmds[3][1:-1]
+                    all_objects[key].__dict__.update({cmds[2]: cmds[3]})
+                    all_objects[key].save()
             else:
-                if cmds[2] in self.attribute_types.keys():
-                    cmds[3] = self.attribute_types[cmds[2]](cmds[3])
-                if cmds[3][0] == '"' and cmds[3][-1] == '"':
-                    cmds[3] = cmds[3][1:-1]
-                all_objects[key].__dict__.update({cmds[2]: cmds[3]})
-                all_objects[key].save()
-        else:
-            print("** no instance found **")
+                print("** no instance found **")
 
     def do_quit(self, args):
         """Exit console"""
