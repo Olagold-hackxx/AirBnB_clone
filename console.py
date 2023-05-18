@@ -64,6 +64,7 @@ class HBNBCommand(cmd.Cmd):
             all_objects = storage.all()
             try:
                 del all_objects[key]
+                storage.save()
             except KeyError:
                 print("** no instance found **")
 
@@ -105,6 +106,11 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, args):
         cmds = args.split(" ")
+        if len(cmds) < 2:
+            ret_val = self.handle_cmds(args)
+            if ret_val:
+                print("** instance id missing **")
+            return
         key = self.handle_cmds(args)
         if key is not None:
             all_objects = storage.all()
